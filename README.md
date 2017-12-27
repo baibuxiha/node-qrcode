@@ -122,6 +122,31 @@ QRCode.toDataURL('I am a pony!', function (err, url) {
 })
 ```
 
+### ES6/ES7
+Promises and Async/Await can be used in place of callback function.
+
+```javascript
+import QRCode from 'qrcode'
+
+// With promises
+QRCode.toDataURL('I am a pony!')
+  .then(url => {
+    console.log(url)
+  })
+  .catch(err => {
+    console.error(err)
+  })
+
+// With async/await
+const generateQR = async text => {
+  try {
+    console.log(await QRCode.toDataURL(text))
+  } catch (err) {
+    console.error(err)
+  }
+}
+```
+
 ## Error correction level
 Error correction capability allows to successfully scan a QR Code even if the symbol is dirty or damaged.
 Four levels are available to choose according to the operating environment.
@@ -321,8 +346,8 @@ Type: `Object`
 
 <br>
 
-#### `toCanvas(canvasElement, text, [options], cb(error))`
-#### `toCanvas(text, [options], cb(error, canvas))`
+#### `toCanvas(canvasElement, text, [options], [cb(error)])`
+#### `toCanvas(text, [options], [cb(error, canvas)])`
 Draws qr code symbol to canvas.<br>
 If `canvasElement` is omitted a new canvas is returned.
 
@@ -356,8 +381,8 @@ QRCode.toCanvas('text', { errorCorrectionLevel: 'H' }, function (err, canvas) {
 
 <br>
 
-#### `toDataURL(text, [options], cb(error, url))`
-#### `toDataURL(canvasElement, text, [options], cb(error, url))`
+#### `toDataURL(text, [options], [cb(error, url)])`
+#### `toDataURL(canvasElement, text, [options], [cb(error, url)])`
 Returns a Data URI containing a representation of the QR Code image.<br>
 If provided, `canvasElement` will be used as canvas to generate the data URI.
 
@@ -412,7 +437,7 @@ QRCode.toDataURL('text', opts, function (err, url) {
 ```
 <br>
 
-#### `toString(text, [options], cb(error, string))`
+#### `toString(text, [options], [cb(error, string)])`
 
 Returns a string representation of the QR Code.<br>
 Currently only works for SVG.
@@ -454,7 +479,7 @@ See [create](#createtext-options).
 
 <br>
 
-#### `toCanvas(canvas, text, [options], cb(error))`
+#### `toCanvas(canvas, text, [options], [cb(error)])`
 Draws qr code symbol to [node canvas](https://github.com/Automattic/node-canvas).
 
 ##### `text`
@@ -472,7 +497,7 @@ Callback function called on finish.
 
 <br>
 
-#### `toDataURL(text, [options], cb(error, url))`
+#### `toDataURL(text, [options], [cb(error, url)])`
 Returns a Data URI containing a representation of the QR Code image.<br>
 Only works with `image/png` type for now.
 
@@ -491,7 +516,7 @@ Callback function called on finish.
 
 <br>
 
-#### `toString(text, [options], cb(error, string))`
+#### `toString(text, [options], [cb(error, string)])`
 Returns a string representation of the QR Code.<br>
 If choosen output format is `svg` it will returns a string containing xml code.
 
@@ -525,7 +550,7 @@ QRCode.toString('http://www.google.com', function (err, string) {
 
 <br>
 
-#### `toFile(path, text, [options], cb(error))`
+#### `toFile(path, text, [options], [cb(error)])`
 Saves QR Code to image file.<br>
 If `options.type` is not specified, the format will be guessed from file extension.<br>
 Recognized extensions are `png`, `svg`, `txt`.
